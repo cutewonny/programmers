@@ -8,6 +8,7 @@ console.log(result);
 
 
 function solution(board, moves) {
+    console.log(typeof moves)
     var answer = 0;
     // console.log("0: board[3][0] 배열 값 꺼내기: ", board[3][0]);
 
@@ -17,7 +18,7 @@ function solution(board, moves) {
 
     //배열의 구조를 바꿔줘야할듯?
     // let arr = Array(5).fill(null).map(() => Array(5));
-    let arr = Array.from(Array(5), () => new Array(5));
+    let arr = Array.from(Array(board.length), () => new Array(board.length));
 
     for (let i = 0; i < 5; i++) {
         for (let j = 0; j < 5; j++) {
@@ -37,25 +38,33 @@ function solution(board, moves) {
 
     let newArr = [];
     let temp;
-    moves.forEach(element => {
+    moves.forEach(function (element, index) {
         let idx = element - 1;
         let temp2 = arr[idx].length;
+        console.log(`idx ${idx} : newArr: ${newArr}   temp2 ${temp2}`);
+        for (let i = 0; i < temp2; i++) {//행에 속한 열에서 값이 있을때까지 움직인다. 열의 길이는 변한다.
 
-        for (let i = 0; i < temp2; i++) {
             // console.log("arr[idx].length", arr[idx].length);
             temp = arr[idx].shift();
-            console.log("arr[idx] 값: ", arr[idx], " temp>> ", temp);
-            if (temp != 0) {
-                let pp = newArr.pop();
-                console.log("pp>> ", pp);
-                if (pp == temp) {
-                    answer += 2;
-                } else {
-                    newArr.push(pp);
+            console.log(`arr[${idx}] 값: `, arr[idx], " temp>> ", temp);
+            if (temp > 0) {
+                if (index == 0) {//처음엔 newArr push만 한다. 뺄게 없다.
                     newArr.push(temp);
+
+                    break;
+                } else {
+                    let pp = newArr.pop();//이전 값이 존재한다.
+                    console.log("이전값>> ", pp);
+                    if (pp == temp) {// 이전값과 현재 넣는 값이 같으면 둘다 newArr에 넣지 않는다
+                        console.log("펑")
+                        answer += 2;
+                    } else {// 이전값과 현재 넣는 값이 다르면 둘다 newArr에 넣는다
+                        newArr.push(pp);
+                        newArr.push(temp);
+                    }
+                    break;//열에서 0외의 값을 만나면 멈춘다, 즉 인형하나를 뽑음
                 }
-                //넣으면서 겹치는 숫자 삭제하기
-                break;
+
             }
         }
 
