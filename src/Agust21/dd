@@ -1,0 +1,26 @@
+function solution(n)
+{
+    var answer = [];
+
+    let rest = n%7;
+    let share = parseInt(n/7);
+    console.log(rest, share);
+
+    let min = 0;
+    let max = 0;
+    if(share>1){
+        if(rest<3){
+        min = (share*2)+1;
+        }else{
+            min = (share*2)+2;
+        }
+        max = (share*2)+2;
+       
+    }else{
+        
+        
+    }
+     answer.push(min);
+        answer.push(max);
+    return answer;
+}
